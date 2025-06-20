@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Automation Pro Workflow</title>
+    <link href="tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="all.min.css">
+    <link href="css2.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 1.2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% { 
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% { 
+                transform: scale(0.9);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+<style>
+    .genspark-badge-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .genspark-modal {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      justify-content: end;
+    }
+    
+    .genspark-modal-content {
+      background-color: white;
+      border-radius: 8px;
+      max-width: 450px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      .genspark-modal-content {
+        max-width: 90%;
+      }
+    }
+    
+    .genspark-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    
+    .genspark-title {
+      margin-bottom: 8px;
+      font-weight: normal;
+      display: inline;
+      font-size: 14px;
+    }
+    
+    .genspark-report {
+      color: #909499;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 14px;
+      display: inline;
+    }
+    
+    .genspark-info {
+      margin: 25px 0;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .genspark-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .genspark-remove-btn {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      color: #333;
+      padding: 4px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .genspark-go-btn {
+      background-color: #222;
+      border: none;
+      color: white;
+      padding: 4px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+  </style><style>
+    .genspark-notice-dialog {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .genspark-notice-content {
+      background-color: white;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+      box-sizing: border-box;
+      padding: 10px 30px 30px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+    }
+
+    .genspark-notice-title {
+      color: #000;
+      font-family: Arial;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+    }
+
+    .genspark-notice-list {
+      margin: 24px 0;
+      
+      color: #606366;
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      padding-left: 12px;
+    }
+
+    .genspark-notice-list li {
+      margin-bottom: 12px;
+      list-style-type: disc;
+    }
+
+    .genspark-notice-list li a {
+      color: #606366;
+      text-decoration: underline;
+    }
+
+    .genspark-notice-checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      gap: 10px;
+
+      color: #232425;
+
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .genspark-notice-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+      
+    .genspark-notice-ok {
+      color: #232425;
+
+      text-align: center;
+      font-family: Arial;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      padding: 6px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 8px;
+      border: 1px solid #000;
+      box-sizing: border-box;
+      width: 100%;
+    }
+  </style></head>
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="bounce-in">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+                    👋 Welcome to<br>
+                    <span class="text-yellow-300">Automation Pro Workflow</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
+                    Your personal AI video assistant for Social Media
+                </p>
+                <div class="pulse-button inline-block">
+                    <button onclick="scrollToFeatures()" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg">
+                        Discover What It Does <i class="fas fa-arrow-down ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What It Is Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">
+                    ⚡ What Is Automation Pro Workflow?
+                </h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                    Automation Pro is a <strong>plug-and-play automation system</strong> that clones social media videos and auto-posts them to your account — completely hands-free.
+                </p>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto mt-4">
+                    Built on top of the powerful open-source platform <strong>n8n</strong> that can run on the cloud or 100% locally on your machine using Docker.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16 slide-up">
+                ✅ What It Does
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover slide-up text-center">
+                    <div class="text-4xl mb-4">🎬</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Downloads Videos</h3>
+                    <p class="text-gray-600">From your Google Drive folder automatically</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover slide-up text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Auto Upload</h3>
+                    <p class="text-gray-600">Uploads them to social media automatically</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover slide-up text-center">
+                    <div class="text-4xl mb-4">📅</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Scheduled Posts</h3>
+                    <p class="text-gray-600">Posts on set schedule or on demand</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover slide-up text-center">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Runs Locally</h3>
+                    <p class="text-gray-600">On your own computer — no tech skills needed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Power Features -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16 slide-up">
+                💡 Why It's Powerful
+            </h2>
+            <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i class="fas fa-lock text-blue-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">🔒 100% Local</h3>
+                            <p class="text-gray-600">Runs from your device. No 3rd parties, full privacy.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-dollar-sign text-green-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">💸 Free Forever</h3>
+                            <p class="text-gray-600">No limits. No monthly fees. Just open-source freedom.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-purple-100 p-3 rounded-full">
+                            <i class="fas fa-sync-alt text-purple-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">🔁 Clone-Ready</h3>
+                            <p class="text-gray-600">Repost trending videos and grow — all on autopilot.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-orange-100 p-3 rounded-full">
+                            <i class="fas fa-cubes text-orange-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">🧱 Modular &amp; Custom</h3>
+                            <p class="text-gray-600">Edit any part: sources, captions, timing, posting methods.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-red-100 p-3 rounded-full">
+                            <i class="fas fa-ban text-red-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">🚫 No Lock-In</h3>
+                            <p class="text-gray-600">Use online or go fully DIY local.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 slide-up">
+                        <div class="bg-indigo-100 p-3 rounded-full">
+                            <i class="fas fa-shield-alt text-indigo-600 text-xl feature-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">🔐 Private &amp; Secure</h3>
+                            <p class="text-gray-600">Data stays on your machine, completely secure.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section class="py-20 gradient-bg">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-6 slide-up">
+                    🚀 Ready to Get Started?
+                </h2>
+                <p class="text-xl text-white max-w-3xl mx-auto slide-up">
+                    Setting up Automation Pro Workflow is easier than you think!
+                </p>
+            </div>
+            
+            <!-- ChatGPT Setup Card -->
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 bounce-in">
+                    <div class="text-center mb-8">
+                        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-robot text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">
+                            Quick Start with ChatGPT
+                        </h3>
+                        <p class="text-lg text-gray-600 mb-8">
+                            Get personalized, step-by-step guidance for your setup
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">
+                            📋 Simply upload your ENTIRE PDF to ChatGPT and say:
+                        </h4>
+                        <div class="bg-white rounded-lg p-6 border-l-4 border-blue-500">
+                            <p class="text-gray-700 italic leading-relaxed">
+                                "Hi ChatGPT - I just purchased the 
+Automation Pro Workflow system. Please act as my onboarding assistant 
+and guide me step-by-step through the entire installation, using the 
+instructions in this PDF. Be sure to start with a friendly welcome 
+message, then walk me through installing Docker, running n8n locally, 
+importing the workflow, and testing a working post. Let me know if I'm 
+missing anything."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg pulse-button mr-4">
+                            <i class="fas fa-download mr-2"></i>
+                            Open ChatGPT Now
+                        </button>
+                        <button onclick="showQuickSteps()" class="bg-gray-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-list mr-2"></i>
+                            View Quick Steps
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Steps (Hidden by default) -->
+    <section id="quick-steps" class="py-20 bg-gray-100" style="display: none;">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
+                🔧 Quick Installation Overview
+            </h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">1</span>
+                            <h3 class="text-lg font-semibold">Download Docker</h3>
+                        </div>
+                        <p class="text-gray-600">Install Docker Desktop (free) from docker.com</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">2</span>
+                            <h3 class="text-lg font-semibold">Run n8n</h3>
+                        </div>
+                        <p class="text-gray-600">Execute the Docker command to launch n8n locally</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">3</span>
+                            <h3 class="text-lg font-semibold">Import Workflow</h3>
+                        </div>
+                        <p class="text-gray-600">Load the Automation Pro Workflow.json file</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">4</span>
+                            <h3 class="text-lg font-semibold">Connect &amp; Test</h3>
+                        </div>
+                        <p class="text-gray-600">Link Google Drive and social media, then test your first post</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold mb-4">🎉 You're in Control</h3>
+            <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
+                Automation Pro Workflow puts the power of social media automation directly in your hands. 
+                No subscriptions, no limits, just pure automation freedom.
+            </p>
+            <div class="border-t border-gray-700 pt-6">
+                <p class="text-gray-500">
+                    Need help? Upload the setup PDF to ChatGPT for personalized assistance.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        function showQuickSteps() {
+            const quickSteps = document.getElementById('quick-steps');
+            if (quickSteps.style.display === 'none') {
+                quickSteps.style.display = 'block';
+                quickSteps.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            } else {
+                quickSteps.style.display = 'none';
+            }
+        }
+        
+        // Add scroll animations
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.slide-up');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('slide-up');
+                }
+            });
+        });
+    </script>
+
+
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDk6Dse8rjLVeyNRFs%2F%2BAjSuv998EFWcda8ocF1Cjh8GZhLTlEvKyAFqjTmgayihOGB2PMXQnVt%2BST%2BY16l27Kjmp%2BWVY6P%2FPQgsbyTIb6EHW6Ogd2HyjL1mACpyf6%2FesdO1pB4F1AO7pFvuwRezLd4WpaKU0Gqw7E2TPPc0tEdH%2FXQKvoFqh1p8LpqpnaA1x0EAejI5xI7ndd6wKPYHT6bVraLz4WTn9n1JE8C3Z3DUOJxJs2OrQkSyNCByuqOIczIUZ2mt9cABspjLRGKcHWSNRLTZI%2FAiV2SbeVKozrhOEMC6aBhWI6ewhZISymh1lhl64ZBrI6vUblEF5MVhszXaKJ3wt52VVJqWlKkV33O9P7DW1nIHt1JviXTOF4ZwL5k7UNZoVnmQE7nvQn55inWL2z%2BtyQ%2F7%2FMEyKoTEYbWJG02l%2FmkkncwLfKWymAk1BqLfSO5QbBZvqg7cN2uDoIc0PaZfsmy6y1lvIQ5%2BenJgrIB0h9p41%2BxmhFih%2FCvWo0g%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDk6Dse8rjLVeyNRFs/+AjSuv998EFWcda8ocF1Cjh8GZhLTlEvKyAFqjTmgayihOGB2PMXQnVt+ST+Y16l27Kjmp+WVY6P/PQgsbyTIb6EHW6Ogd2HyjL1mACpyf6/esdO1pB4F1AO7pFvuwRezLd4WpaKU0Gqw7E2TPPc0tEdH/XQKvoFqh1p8LpqpnaA1x0EAejI5xI7ndd6wKPYHT6bVraLz4WTn9n1JE8C3Z3DUOJxJs2OrQkSyNCByuqOIczIUZ2mt9cABspjLRGKcHWSNRLTZI/AiV2SbeVKozrhOEMC6aBhWI6ewhZISymh1lhl64ZBrI6vUblEF5MVhszXaKJ3wt52VVJqWlKkV33O9P7DW1nIHt1JviXTOF4ZwL5k7UNZoVnmQE7nvQn55inWL2z+tyQ/7/MEyKoTEYbWJG02l/mkkncwLfKWymAk1BqLfSO5QbBZvqg7cN2uDoIc0PaZfsmy6y1lvIQ5+enJgrIB0h9p41+xmhFih/CvWo0g==";
+    </script>
+    
+        <script id="html_badge_script2" src="html_badge.js"></script><button class="genspark-badge-button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+<path d="M11.3412 0H2.65879C1.19038 0 0 1.19038 0 2.65879V11.3412C0 12.8096 1.19038 14 2.65879 14H11.3412C12.8096 14 14 12.8096 14 11.3412V2.65879C14 1.19038 12.8096 0 11.3412 0Z" fill="white"></path>
+<path d="M11.7403 10.7031H2.29243C2.09641 10.7031 1.9375 10.862 1.9375 11.0581V11.8033C1.9375 11.9993 2.09641 12.1582 2.29243 12.1582H11.7403C11.9363 12.1582 12.0952 11.9993 12.0952 11.8033V11.0581C12.0952 10.862 11.9363 10.7031 11.7403 10.7031Z" fill="#232425"></path>
+<path d="M5.09178 9.18166C5.03494 9.18166 4.98695 9.13998 4.97811 9.08314C4.60803 6.63655 4.34025 6.42056 1.91134 6.05427C1.83682 6.0429 1.78125 5.97848 1.78125 5.9027C1.78125 5.82691 1.83682 5.7625 1.91134 5.75113C4.32762 5.3861 4.54235 5.17011 4.90738 2.7551C4.91874 2.68058 4.98316 2.625 5.05894 2.625C5.13473 2.625 5.19914 2.68058 5.21051 2.7551C5.57554 5.17011 5.79153 5.3861 8.20655 5.75113C8.28107 5.7625 8.33664 5.82691 8.33664 5.9027C8.33664 5.97848 8.28107 6.0429 8.20655 6.05427C5.78017 6.42056 5.57302 6.63655 5.20546 9.08314C5.19662 9.13871 5.14862 9.18166 5.09178 9.18166Z" fill="#232425"></path>
+<path d="M9.70174 5.949C9.66637 5.949 9.63606 5.92248 9.63101 5.88711C9.39986 4.35878 9.23188 4.22363 7.71492 3.99501C7.66818 3.98743 7.63281 3.94828 7.63281 3.90028C7.63281 3.85355 7.66692 3.81313 7.71492 3.80555C9.2243 3.5782 9.35945 3.44305 9.5868 1.93366C9.59438 1.88693 9.63354 1.85156 9.68153 1.85156C9.72827 1.85156 9.76869 1.88567 9.77627 1.93366C10.0036 3.44305 10.1388 3.5782 11.6482 3.80555C11.6949 3.81313 11.7302 3.85228 11.7302 3.90028C11.7302 3.94702 11.6962 3.98743 11.6482 3.99501C10.1325 4.22363 10.0024 4.35878 9.77247 5.88711C9.76742 5.92248 9.73711 5.949 9.70174 5.949Z" fill="#232425"></path>
+<path d="M9.69114 9.76325C9.6684 9.76325 9.64946 9.74683 9.64567 9.7241C9.49915 8.75152 9.39179 8.66563 8.42679 8.52038C8.39648 8.51533 8.375 8.49007 8.375 8.45975C8.375 8.42944 8.39648 8.40418 8.42679 8.39912C9.38673 8.25387 9.47262 8.16798 9.61788 7.20804C9.62293 7.17772 9.64819 7.15625 9.6785 7.15625C9.70882 7.15625 9.73408 7.17772 9.73913 7.20804C9.88439 8.16798 9.97028 8.25387 10.9302 8.39912C10.9605 8.40418 10.982 8.42944 10.982 8.45975C10.982 8.49007 10.9605 8.51533 10.9302 8.52038C9.96523 8.66563 9.88312 8.75152 9.73661 9.7241C9.73282 9.74683 9.71387 9.76325 9.69114 9.76325Z" fill="#232425"></path>
+</svg> Made with Genspark</button><div class="genspark-modal">
+    <div class="genspark-modal-content">
+      <button class="genspark-close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+<path d="M11 3L3 11M3 3L11 11" stroke="#232425" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></button>
+      <h3 class="genspark-title">This page was created by users with AI.</h3>
+      <a class="genspark-report" href="mailto:support@genspark.ai?subject=Report%20inappropriate%20content&amp;body=Current%20URL:%20https://zhnwvnux.gensparkspace.com/">Report inappropriate content.</a>
+      <p class="genspark-info">Page owner with Plus Plan can remove badge.</p>
+      <div class="genspark-buttons">
+        <button class="genspark-remove-btn">Remove Badge</button>
+        <button class="genspark-go-btn">Go to Genspark</button>
+      </div>
+    </div>
+  </div>
+        
+    <script id="html_notice_dialog_script" src="notice_dialog.js"></script>
+    <div class="genspark-notice-dialog" style="display: none;">
+      <div class="genspark-notice-content">
+        <h2 class="genspark-notice-title">This site was created by a user, please note:</h2>
+        <ul class="genspark-notice-list">
+          <li>Content may contain inaccuracies, double-check information before use.</li>
+          <li>If you notice any inappropriate content on this site, please contact us at <a href="mailto:support@genspark.ai">support@genspark.ai</a>.</li>
+        </ul>
+        <div class="genspark-notice-checkbox">
+          <input type="checkbox" id="genspark-dont-show" checked="checked">
+          <label for="genspark-dont-show">Don't show this message again.</label>
+        </div>
+        <div class="genspark-notice-actions">
+          <button class="genspark-notice-ok">OK</button>
+        </div>
+      </div>
+    </div>
+<style>
+  .hidden-body { visibility: hidden; }
+</style>
+
+<div id="login-overlay" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 9999;
+">
+  <div style="background: white; color: black; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;">
+    <h2 style="margin-bottom: 1rem;">Enter Password</h2>
+    <input type="password" id="pw" placeholder="Password" style="padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; width: 200px;" />
+    <br><br>
+    <button onclick="checkPassword()" style="padding: 0.5rem 1rem; background-color: #4f46e5; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      Submit
+    </button>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    const password = "letmein";
+    const entered = document.getElementById("pw").value;
+    if (entered === password) {
+      localStorage.setItem("apw_authed", "yes");
+      document.getElementById("login-overlay").style.display = "none";
+      document.body.classList.remove("hidden-body");
+    } else {
+      alert("Incorrect password.");
+    }
+  }
+
+  window.onload = function () {
+    if (localStorage.getItem("apw_authed") === "yes") {
+      document.getElementById("login-overlay").style.display = "none";
+      document.body.classList.remove("hidden-body");
+    } else {
+      document.body.classList.add("hidden-body");
+    }
+  };
+</script>
+
+
+<style>
+  .hidden-body { visibility: hidden; }
+</style>
+
+<div id="login-overlay" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 9999;
+">
+  <div style="background: white; color: black; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;">
+    <h2 style="margin-bottom: 1rem;">Enter Password</h2>
+    <input type="password" id="pw" placeholder="Password" style="padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; width: 200px;" />
+    <br><br>
+    <button onclick="checkPassword()" style="padding: 0.5rem 1rem; background-color: #4f46e5; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      Submit
+    </button>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    const password = "letmein";
+    const entered = document.getElementById("pw").value;
+    if (entered === password) {
+      localStorage.setItem("apw_authed", "yes");
+      document.getElementById("login-overlay").style.display = "none";
+      document.body.classList.remove("hidden-body");
+    } else {
+      alert("Incorrect password.");
+    }
+  }
+
+  window.onload = function () {
+    if (localStorage.getItem("apw_authed") === "yes") {
+      document.getElementById("login-overlay").style.display = "none";
+      document.body.classList.remove("hidden-body");
+    } else {
+      document.body.classList.add("hidden-body");
+    }
+  };
+</script>
+
+</body></html>
